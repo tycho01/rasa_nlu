@@ -36,7 +36,7 @@ In this tutorial we'll build a model which does exactly that.
 Preparing the Training Data
 ---------------------------
 
-The training data is essential to develop chatbots. It should include texts to be interpreted and the structured data (intent/entities) we expect chatbots to convert the texts into. The best way to get training texts is from *real users*, and the best way to get the structured data is to `pretend to be the bot yourself <https://conversations.golastmile.com/put-on-your-robot-costume-and-be-the-minimum-viable-bot-yourself-3e48a5a59308#.d4tmdan68>`_. But to help get you started, we have some `data saved <https://github.com/RasaHQ/rasa_nlu/blob/master/data/examples/rasa/demo-rasa.json>`_.
+The training data is essential to develop chatbots. It should include texts to be interpreted and the structured data (intent/entities) we expect chatbots to convert the texts into. The best way to get training texts is from *real users*, and the best way to get the structured data is to `pretend to be the bot yourself <https://medium.com/rasa-blog/put-on-your-robot-costume-and-be-the-minimum-viable-bot-yourself-3e48a5a59308>`_. But to help get you started, we have some `data saved <https://github.com/RasaHQ/rasa_nlu/blob/master/data/examples/rasa/demo-rasa.json>`_.
 
 Download the file (json format) and open it, and you'll see a list of training examples, each composed of ``"text"``, ``"intent"`` and ``"entities"``, as shown below. In your working directory, create a ``data`` folder, and copy this ``demo-rasa.json`` file there.
 
@@ -111,6 +111,8 @@ rasa NLU will finish training, and you'll see a new folder named as
 ``projects/default/model_YYYYMMDD-HHMMSS`` with the timestamp when training finished.
 
 
+.. _tutorial_using_your_model:
+
 Using Your Model
 ----------------
 
@@ -125,9 +127,12 @@ More information about starting the server can be found in :ref:`section_http`.
 
 You can then test your new model by sending a request. Open a new tab/window on your terminal and run
 
+.. note::
+    **For windows users** the windows command line interface doesn't like single quotes. Use doublequotes and escape where necessary. ``curl -X POST "localhost:5000/parse" -d "{/"q/":/"I am looking for Chinese food/"}" | python -m json.tool``
+
 .. code-block:: console
 
-    $ curl -XPOST localhost:5000/parse -d '{"q":"I am looking for Chinese food"}' | python -mjson.tool
+    $ curl -X POST localhost:5000/parse -d '{"q":"I am looking for Chinese food"}' | python -m json.tool
 
 which should return 
 
@@ -181,7 +186,7 @@ With very little data, rasa NLU can in certain cases already generalise concepts
 
 .. code-block:: console
 
-    $ curl -XPOST localhost:5000/parse -d '{"q":"I want some italian food"}' | python -mjson.tool
+    $ curl -X POST localhost:5000/parse -d '{"q":"I want some italian food"}' | python -m json.tool
     {
         "text": "I want some italian food",
         "entities": [
